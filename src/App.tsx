@@ -71,6 +71,12 @@ function App() {
             [newId]:[]
         })
     }
+    const updateTaskName=(todolistID:string, id:string, title:string)=>{
+        setTask({...tasks, [todolistID]:tasks[todolistID].map(t=>t.id===id ? {...t, title} : t)})
+    }
+    const updateTodolistName=(todolistID:string, title:string)=>{
+        setTodolists(todolists.map(t=>t.id===todolistID? {...t,title }: t ))
+    }
     const changeStatus = (id: string, isDone: boolean, todolistID: string) => {
         let task = tasks[todolistID].find(t => t.id === id)
         if (task) {
@@ -101,6 +107,8 @@ function App() {
                         changeStatus={changeStatus}
                         filter={tl.filter}
                         removeTodolist={removeTodolist}
+                        updateTaskName={updateTaskName}
+                        updateTodolistName={updateTodolistName}
                     />
                 })
             }
