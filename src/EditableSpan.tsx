@@ -1,14 +1,15 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {TextField} from "@material-ui/core";
 
 export type EditableSpanPropsType = {
     title: string,
-    updateTaskName:(title:string)=>void,
- }
+    updateTaskName: (title: string) => void,
+}
 
 export const EditableSpan = (props: EditableSpanPropsType) => {
     let [edit, setEdid] = useState(false)
     let [title, setTitle] = useState(props.title)
-    const onDoubleClickHandler= () => {
+    const onDoubleClickHandler = () => {
         setEdid(true)
 
     }
@@ -25,7 +26,14 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
     return (
         <>{
             edit
-                ? <input value={title} onChange={changeTitle} autoFocus onBlur={onBlurHandler}/>
+                ? <TextField
+                    variant='outlined'
+                    value={title}
+                    onChange={changeTitle}
+                    autoFocus
+                    onBlur={onBlurHandler}
+                    size='small'
+                />
                 : <span onDoubleClick={onDoubleClickHandler}>{props.title}</span>
         }
         </>
