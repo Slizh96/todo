@@ -4,6 +4,7 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
+import {UniversalCheckBox} from "./component/UniversalCheckBox";
 
 export type TaskType = {
     id: string,
@@ -33,6 +34,9 @@ export const Todolist = (props: PropsTitle) => {
     const updateTodolistName = (title: string) => {
         props.updateTodolistName(props.id, title)
     }
+    let onChangeTaskStatus = (tId:string, newIsDone:boolean) => {
+       props.changeStatus(tId, newIsDone, props.id)
+    }
     return (
         <div>
             <h3>
@@ -42,18 +46,14 @@ export const Todolist = (props: PropsTitle) => {
             <AddItemForm addTask={addTask}/>
             <div>
                 {props.tasks.map(t => {
-                    let onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                        let newIsDone = e.currentTarget.checked
-                        props.changeStatus(t.id, newIsDone, props.id)
-                    }
+                    // let onChangeTaskStatus = (newIsDone:boolean) => {
+                    //     // let newIsDone = e.currentTarget.checked
+                    //     props.changeStatus(t.id, newIsDone, props.id)
+                    // }
                     return (
                         <div key={t.id} className={t.isDone ? 'is-done' : ''}>
                             <IconButton onClick={() => props.removeTask(t.id, props.id)}><Delete/></IconButton>
-                            <Checkbox
-                                checked={t.isDone}
-                                onChange={onChangeTaskStatus}
-                                color='secondary'
-                            />
+                           <UniversalCheckBox isDone={t.isDone} callBack={(newIsDone)=>onChangeTaskStatus(t.id, newIsDone)}/>
                             <EditableSpan title={t.title}
                                           updateTaskName={(title) => updateTaskNameHandler(t.id, title)}/>
                         </div>
