@@ -1,5 +1,5 @@
 import {
-    addTodolistAC,
+    AddTodolistAC,
     changeTodolistAC,
     changeTodolistFilterAC,
     removeTodolistAC,
@@ -24,14 +24,14 @@ test('correct todolist should be removed', () => {
 test('correct todolist should be add', () => {
     let todolistId1 = v1();
     let todolistId2 = v1();
-    let newTodolistTitle = 'kubgiu';
+    let newTodolistTitle = 'new todolist';
 
     const startState: Array<TodolistType> = [
         {id: todolistId1, title: "What to learn", filter: "All"},
         {id: todolistId2, title: "What to buy", filter: "All"}
     ]
 
-    const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle))
+    const endState = todolistsReducer(startState, AddTodolistAC(newTodolistTitle))
     expect(endState.length).toBe(3);
     expect(endState[2].title).toBe(newTodolistTitle);
     expect(endState[2].filter).toBe('All');
