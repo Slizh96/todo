@@ -16,7 +16,7 @@ export type PropsTitle = {
     title: string,
     tasks: TaskType[],
     removeTask: (id: string, todolistID: string) => void,
-    changeFilter: (value: FiltrType, todolistID: string) => void,
+    changeFilter: ( todolistID: string, value: FiltrType) => void,
     addTask: (title: string, todolistID: string) => void,
     changeStatus: (id: string, isDone: boolean, todolistID: string) => void,
     filter: FiltrType,
@@ -64,19 +64,19 @@ export const Todolist = (props: PropsTitle) => {
             <div>
                 <Button
                     variant={props.filter === 'All' ? 'outlined' : 'text'}
-                    onClick={() => props.changeFilter('All', props.id)}
+                    onClick={() => props.changeFilter( props.id, 'All')}
                     color='default'
                     size='small'
                 >All
                 </Button>
                 <Button variant={props.filter === 'Active' ? 'outlined' : 'text'}
-                        onClick={() => props.changeFilter('Active', props.id)}
+                        onClick={() => props.changeFilter(props.id, 'Active')}
                         color='secondary'
                         size='small'
                 >Active
                 </Button>
                 <Button variant={props.filter === 'Completed' ? 'outlined' : 'text'}
-                        onClick={() => props.changeFilter('Completed', props.id)}
+                        onClick={() => props.changeFilter(props.id, 'Completed')}
                         color='primary'
                         size='small'
                 >Completed

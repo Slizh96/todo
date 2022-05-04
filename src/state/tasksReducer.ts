@@ -127,12 +127,12 @@ export const changeTaskStatusAC = (id: string, isDone: boolean, todolistID: stri
         }
     } as const
 };
-export const changeTaskTitleAC = (id: string, todolistID: string, title: string): changeTaskTitleACType => {
+export const changeTaskTitleAC = (todolistID: string, id: string, title: string): changeTaskTitleACType => {
     return {
         type: 'CHANGE-TASK-TITLE',
         payload: {
-            id,
             todolistID,
+            id,
             title
         }
     } as const
