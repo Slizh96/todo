@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import {FiltrType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -26,9 +26,9 @@ export type PropsTitle = {
 }
 
 export const Todolist = (props: PropsTitle) => {
-    const addTask = (title: string) => {
+    const addTask = useCallback( (title: string) => {
         props.addTask(title, props.id)
-    }
+    }, [])
     const updateTaskNameHandler = (tID: string, title: string) =>
         props.updateTaskName(props.id, tID, title)
     const updateTodolistName = (title: string) => {

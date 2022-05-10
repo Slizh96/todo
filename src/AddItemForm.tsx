@@ -6,7 +6,8 @@ type AddItemType = {
     addTask: (title: string) => void
 }
 
-export const AddItemForm = (props: AddItemType) => {
+export const AddItemForm = React.memo((props: AddItemType) => {
+    console.log('addItemForm')
     let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
     let addTaskT = () => {
@@ -47,4 +48,4 @@ export const AddItemForm = (props: AddItemType) => {
             </IconButton>
         </div>
     )
-}
+})
