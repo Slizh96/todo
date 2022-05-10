@@ -35,12 +35,7 @@ export type changeTaskTitleACType = {
         title: string
     }
 }
-// export type AddTodolistACType = {
-//     type: 'ADD-TODOLIST',
-//     payload: {
-//         title: string
-//     }
-// }
+
 
 type ActionType = removeTaskACType
     | addTaskACType
