@@ -28,7 +28,7 @@ export type PropsTitle = {
 export const Todolist = (props: PropsTitle) => {
     const addTask = useCallback( (title: string) => {
         props.addTask(title, props.id)
-    }, [])
+    }, [props.addTask, props.id])
     const updateTaskNameHandler = (tID: string, title: string) =>
         props.updateTaskName(props.id, tID, title)
     const updateTodolistName = (title: string) => {
