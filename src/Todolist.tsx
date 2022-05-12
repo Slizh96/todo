@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useMemo, useState} from "react";
 import {FiltrType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -25,7 +25,8 @@ export type PropsTitle = {
     updateTodolistName: (todolistID: string, title: string) => void,
 }
 
-export const Todolist = (props: PropsTitle) => {
+export const Todolist = React.memo((props: PropsTitle) => {
+    console.log('AIF Tod')
     const addTask = useCallback( (title: string) => {
         props.addTask(title, props.id)
     }, [props.addTask, props.id])
@@ -37,6 +38,22 @@ export const Todolist = (props: PropsTitle) => {
     let onChangeTaskStatus = (tId:string, newIsDone:boolean) => {
        props.changeStatus(tId, newIsDone, props.id)
     }
+
+    const useMemoRes=useMemo(()=>props.tasks.map(t => {
+        // let onChangeTaskStatus = (newIsDone:boolean) => {
+        //     // let newIsDone = e.currentTarget.checked
+        //     props.changeStatus(t.id, newIsDone, props.id)
+        // }
+        return (
+            <div key={t.id} className={t.isDone ? 'is-done' : ''}>
+                <IconButton onClick={() => props.removeTask(t.id, props.id)}><Delete/></IconButton>
+                <UniversalCheckBox isDone={t.isDone} callBack={(newIsDone)=>onChangeTaskStatus(t.id, newIsDone)}/>
+                <EditableSpan title={t.title}
+                              updateTaskName={(title) => updateTaskNameHandler(t.id, title)}/>
+            </div>
+        )
+    }), [props.tasks])
+
     return (
         <div>
             <h3>
@@ -45,20 +62,8 @@ export const Todolist = (props: PropsTitle) => {
             </h3>
             <AddItemForm addTask={addTask}/>
             <div>
-                {props.tasks.map(t => {
-                    // let onChangeTaskStatus = (newIsDone:boolean) => {
-                    //     // let newIsDone = e.currentTarget.checked
-                    //     props.changeStatus(t.id, newIsDone, props.id)
-                    // }
-                    return (
-                        <div key={t.id} className={t.isDone ? 'is-done' : ''}>
-                            <IconButton onClick={() => props.removeTask(t.id, props.id)}><Delete/></IconButton>
-                           <UniversalCheckBox isDone={t.isDone} callBack={(newIsDone)=>onChangeTaskStatus(t.id, newIsDone)}/>
-                            <EditableSpan title={t.title}
-                                          updateTaskName={(title) => updateTaskNameHandler(t.id, title)}/>
-                        </div>
-                    )
-                })
+                {
+                  useMemoRes
                 }
             </div>
             <div>
@@ -84,4 +89,4 @@ export const Todolist = (props: PropsTitle) => {
             </div>
         </div>
     )
-}
+})

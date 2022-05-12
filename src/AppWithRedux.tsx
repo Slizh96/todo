@@ -37,32 +37,22 @@ function AppWithRedux() {
     const dispatch = useDispatch()
 
 
-    const removeTodolist = (todolistID: string) => {
-
-        dispatch(removeTodolistAC(todolistID))
-    }
-    const removeTask = (id: string, todolistID: string) => {
-        dispatch(removeTaskAC(id, todolistID))
-    }
-    const changeFilter = (todolistID: string, value: FiltrType) => {
-        dispatch(changeTodolistFilterAC(todolistID, value))
-    }
-
+    const removeTodolist = useCallback((todolistID: string) => {
+        dispatch(removeTodolistAC(todolistID))}, [dispatch])
+            const removeTask =useCallback( (id: string, todolistID: string) => {
+        dispatch(removeTaskAC(id, todolistID))}, [dispatch])
+            const changeFilter = useCallback((todolistID: string, value: FiltrType) => {
+        dispatch(changeTodolistFilterAC(todolistID, value))}, [dispatch])
     const addTask = useCallback( (title: string, todolistID: string) => {
-        dispatch(addTaskAC(title, todolistID))
-    }, [dispatch])
-    const addTodolist = (title: string) => {
-        dispatch(AddTodolistAC(title))
-    }
-    const updateTaskName = (todolistID: string, id: string, title: string) => {
-        dispatch(changeTaskTitleAC(todolistID, id, title))
-    }
-    const updateTodolistName = (todolistID: string, title: string) => {
-        dispatch(changeTodolistAC(todolistID, title))
-    }
-    const changeStatus = (id: string, isDone: boolean, todolistID: string) => {
-        dispatch(changeTaskStatusAC(id, isDone, todolistID))
-    }
+        dispatch(addTaskAC(title, todolistID))}, [dispatch])
+    const addTodolist = useCallback((title: string) => {
+        dispatch(AddTodolistAC(title))}, [dispatch]);
+    const updateTaskName = useCallback((todolistID: string, id: string, title: string) => {
+        dispatch(changeTaskTitleAC(todolistID, id, title))}, [dispatch])
+    const updateTodolistName = useCallback((todolistID: string, title: string) => {
+        dispatch(changeTodolistAC(todolistID, title))}, [dispatch])
+    const changeStatus = useCallback((id: string, isDone: boolean, todolistID: string) => {
+        dispatch(changeTaskStatusAC(id, isDone, todolistID))}, [dispatch])
     return (
         <div className="App">
             <Box sx={{flexGrow: 1}}>
