@@ -7,7 +7,7 @@ type AddItemType = {
 }
 
 export const AddItemForm = React.memo((props: AddItemType) => {
-    console.log('addItemForm')
+    // console.log('addItemForm')
     let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
     let addTaskT = () => {

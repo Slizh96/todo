@@ -26,24 +26,37 @@ export type PropsTitle = {
 }
 
 export const Todolist = React.memo((props: PropsTitle) => {
-    console.log('AIF Tod')
+    // console.log('AIF Tod')
     const addTask = useCallback( (title: string) => {
         props.addTask(title, props.id)
     }, [props.addTask, props.id])
-    const updateTaskNameHandler = (tID: string, title: string) =>
-        props.updateTaskName(props.id, tID, title)
-    const updateTodolistName = (title: string) => {
+    const updateTaskNameHandler = useCallback((tID: string, title: string) =>
+        props.updateTaskName(props.id, tID, title), [props.updateTaskName, props.id])
+    const updateTodolistName = useCallback((title: string) => {
         props.updateTodolistName(props.id, title)
-    }
+    }, [props.updateTodolistName, props.id])
     let onChangeTaskStatus = (tId:string, newIsDone:boolean) => {
        props.changeStatus(tId, newIsDone, props.id)
     }
 
-    const useMemoRes=useMemo(()=>props.tasks.map(t => {
+    const onAllClickHandler =useCallback(()=>props.changeFilter( props.id, 'All'), [props.changeFilter, props.id]);
+    const onActiveClickHandler =useCallback(()=>props.changeFilter(props.id, 'Active'), [props.changeFilter, props.id]);
+    const onCompletedClickHandler =useCallback(()=>props.changeFilter(props.id, 'Completed'), [props.changeFilter, props.id]);
+
+    let tasksForTodolist = props.tasks;
+    if (props.filter==="Active"){
+        tasksForTodolist=tasksForTodolist.filter(t=>t.isDone===false)
+    }
+    if (props.filter==="Completed"){
+        tasksForTodolist=tasksForTodolist.filter(t=>t.isDone===true)
+    }
+
+    const useMemoRes=useMemo(()=>tasksForTodolist.map(t => {
         // let onChangeTaskStatus = (newIsDone:boolean) => {
         //     // let newIsDone = e.currentTarget.checked
         //     props.changeStatus(t.id, newIsDone, props.id)
         // }
+
         return (
             <div key={t.id} className={t.isDone ? 'is-done' : ''}>
                 <IconButton onClick={() => props.removeTask(t.id, props.id)}><Delete/></IconButton>
@@ -52,7 +65,8 @@ export const Todolist = React.memo((props: PropsTitle) => {
                               updateTaskName={(title) => updateTaskNameHandler(t.id, title)}/>
             </div>
         )
-    }), [props.tasks])
+    }), [tasksForTodolist])
+
 
     return (
         <div>
@@ -69,19 +83,19 @@ export const Todolist = React.memo((props: PropsTitle) => {
             <div>
                 <Button
                     variant={props.filter === 'All' ? 'outlined' : 'text'}
-                    onClick={() => props.changeFilter( props.id, 'All')}
+                    onClick={onAllClickHandler}
                     color='default'
                     size='small'
                 >All
                 </Button>
                 <Button variant={props.filter === 'Active' ? 'outlined' : 'text'}
-                        onClick={() => props.changeFilter(props.id, 'Active')}
+                        onClick={onActiveClickHandler}
                         color='secondary'
                         size='small'
                 >Active
                 </Button>
                 <Button variant={props.filter === 'Completed' ? 'outlined' : 'text'}
-                        onClick={() => props.changeFilter(props.id, 'Completed')}
+                        onClick={onCompletedClickHandler}
                         color='primary'
                         size='small'
                 >Completed
