@@ -5,13 +5,14 @@ import {EditableSpan} from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {UniversalCheckBox} from "./component/UniversalCheckBox";
+import {Task} from "./Task";
 
 export type TaskType = {
     id: string,
     title: string,
     isDone: boolean
 }
-export type PropsTitle = {
+export type PropsTodolist = {
     id: string,
     title: string,
     tasks: TaskType[],
@@ -25,25 +26,27 @@ export type PropsTitle = {
     updateTodolistName: (todolistID: string, title: string) => void,
 }
 
-export const Todolist = React.memo((props: PropsTitle) => {
+export const Todolist = React.memo((props: PropsTodolist) => {
     // console.log('AIF Tod')
     const addTask = useCallback( (title: string) => {
         props.addTask(title, props.id)
     }, [props.addTask, props.id])
-    const updateTaskNameHandler = useCallback((tID: string, title: string) =>
-        props.updateTaskName(props.id, tID, title), [props.updateTaskName, props.id])
+    // const updateTaskNameHandler = useCallback((tID: string, title: string) =>
+    //     props.updateTaskName(props.id, tID, title), [props.updateTaskName, props.id])
     const updateTodolistName = useCallback((title: string) => {
         props.updateTodolistName(props.id, title)
     }, [props.updateTodolistName, props.id])
-    let onChangeTaskStatus = (tId:string, newIsDone:boolean) => {
-       props.changeStatus(tId, newIsDone, props.id)
-    }
+    // let onChangeTaskStatus = (tId:string, newIsDone:boolean) => {
+    //    props.changeStatus(tId, newIsDone, props.id)
+    // }
 
     const onAllClickHandler =useCallback(()=>props.changeFilter( props.id, 'All'), [props.changeFilter, props.id]);
     const onActiveClickHandler =useCallback(()=>props.changeFilter(props.id, 'Active'), [props.changeFilter, props.id]);
     const onCompletedClickHandler =useCallback(()=>props.changeFilter(props.id, 'Completed'), [props.changeFilter, props.id]);
 
-    let tasksForTodolist = props.tasks;
+    const removeTodolistHandler=useCallback(() => props.removeTodolist(props.id), [props.removeTodolist, props.id])
+
+       let tasksForTodolist = props.tasks;
     if (props.filter==="Active"){
         tasksForTodolist=tasksForTodolist.filter(t=>t.isDone===false)
     }
@@ -51,33 +54,60 @@ export const Todolist = React.memo((props: PropsTitle) => {
         tasksForTodolist=tasksForTodolist.filter(t=>t.isDone===true)
     }
 
-    const useMemoRes=useMemo(()=>tasksForTodolist.map(t => {
-        // let onChangeTaskStatus = (newIsDone:boolean) => {
-        //     // let newIsDone = e.currentTarget.checked
-        //     props.changeStatus(t.id, newIsDone, props.id)
-        // }
-
-        return (
-            <div key={t.id} className={t.isDone ? 'is-done' : ''}>
-                <IconButton onClick={() => props.removeTask(t.id, props.id)}><Delete/></IconButton>
-                <UniversalCheckBox isDone={t.isDone} callBack={(newIsDone)=>onChangeTaskStatus(t.id, newIsDone)}/>
-                <EditableSpan title={t.title}
-                              updateTaskName={(title) => updateTaskNameHandler(t.id, title)}/>
-            </div>
-        )
-    }), [tasksForTodolist])
+    // const useMemoRes=useMemo(()=>tasksForTodolist.map(t => {
+    //     // let onChangeTaskStatus = (newIsDone:boolean) => {
+    //     //     // let newIsDone = e.currentTarget.checked
+    //     //     props.changeStatus(t.id, newIsDone, props.id)
+    //     // }
+    //
+    //     return (
+    //         <div key={t.id} className={t.isDone ? 'is-done' : ''}>
+    //             <IconButton onClick={()=>removeTaskHandler(t.id)}><Delete/></IconButton>
+    //             <UniversalCheckBox isDone={t.isDone} callBack={(newIsDone)=>onChangeTaskStatus(t.id, newIsDone)}/>
+    //             <EditableSpan title={t.title}
+    //                           updateTaskName={(title) => updateTaskNameHandler(t.id, title)}/>
+    //         </div>
+    //     )
+    // }), [tasksForTodolist])
 
 
     return (
+
         <div>
             <h3>
-                <IconButton onClick={() => props.removeTodolist(props.id)}><Delete/></IconButton>
-                <EditableSpan title={props.title} updateTaskName={updateTodolistName}/>
+                <IconButton onClick={removeTodolistHandler}><Delete/></IconButton>
+                <EditableSpan title={props.title} onChange={updateTodolistName}/>
             </h3>
             <AddItemForm addTask={addTask}/>
             <div>
-                {
-                  useMemoRes
+                { tasksForTodolist.map(t => {
+                    // const removeTaskHandler=()=>{
+                    //     props.removeTask(t.id, props.id)}
+                    //     let onChangeTaskStatus = (newIsDone:boolean) => {
+                    //         // let newIsDone = e.currentTarget.checked
+                    //         props.changeStatus(t.id, newIsDone, props.id)
+                    //     }
+                    //     let updateTaskNameHandlerMap=(title:string) => props.updateTaskName(props.id, t.id, title)
+                    //         // updateTaskNameHandler(t.id, title)
+
+                        return (
+                            <Task
+                                key={t.id}
+                                todolistID={props.id}
+                                task={t}  //просто т так как мапим таски
+                                removeTask={props.removeTask}
+                                changeStatus={props.changeStatus}
+                                updateTaskName={props.updateTaskName}/>
+                            // <div key={t.id} className={t.isDone ? 'is-done' : ''}>
+                            //     <IconButton onClick={removeTaskHandler}><Delete/></IconButton>
+                            //     <UniversalCheckBox isDone={t.isDone} callBack={onChangeTaskStatus}/>
+                            //     <EditableSpan title={t.title}
+                            //                   onChange={updateTaskNameHandlerMap}/>
+                            // </div>
+
+                        )
+                    })
+                  // useMemoRes
                 }
             </div>
             <div>

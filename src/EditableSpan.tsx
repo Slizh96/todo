@@ -3,7 +3,7 @@ import {TextField} from "@material-ui/core";
 
 export type EditableSpanPropsType = {
     title: string,
-    updateTaskName: (title: string) => void,
+    onChange: (title: string) => void,
 }
 
 export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
@@ -17,7 +17,7 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
 
     const onBlurHandler = () => {
         setEdid(false)
-        props.updateTaskName(title)
+        props.onChange(title)
     }
 
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
