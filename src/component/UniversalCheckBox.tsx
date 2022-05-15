@@ -2,8 +2,8 @@ import React, {ChangeEvent} from "react";
 import {Checkbox} from "@material-ui/core";
 
 type CheckBoxPropsType ={
-    isDone:boolean,
-    callBack:(isDoone:boolean)=>void
+    isDone: boolean,
+    callBack:(isDone:boolean)=>void
 }
 
 export const UniversalCheckBox =(props:CheckBoxPropsType)=>{

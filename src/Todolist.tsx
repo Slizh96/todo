@@ -6,6 +6,7 @@ import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {UniversalCheckBox} from "./component/UniversalCheckBox";
 import {Task} from "./Task";
+import {TaskRedux} from "./TaskRedux";
 
 export type TaskType = {
     id: string,
@@ -91,13 +92,17 @@ export const Todolist = React.memo((props: PropsTodolist) => {
                     //         // updateTaskNameHandler(t.id, title)
 
                         return (
-                            <Task
-                                key={t.id}
+                            <TaskRedux
+                            key={t.id}
                                 todolistID={props.id}
-                                task={t}  //просто т так как мапим таски
-                                removeTask={props.removeTask}
-                                changeStatus={props.changeStatus}
-                                updateTaskName={props.updateTaskName}/>
+                                taskID={t.id}/>
+                            // <Task
+                            //     key={t.id}
+                            //     todolistID={props.id}
+                            //     task={t}  //просто т так как мапим таски
+                            //     removeTask={props.removeTask}
+                            //     changeStatus={props.changeStatus}
+                            //     updateTaskName={props.updateTaskName}/>
                             // <div key={t.id} className={t.isDone ? 'is-done' : ''}>
                             //     <IconButton onClick={removeTaskHandler}><Delete/></IconButton>
                             //     <UniversalCheckBox isDone={t.isDone} callBack={onChangeTaskStatus}/>

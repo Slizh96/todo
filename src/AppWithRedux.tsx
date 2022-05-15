@@ -1,18 +1,12 @@
-import React, {useCallback, useReducer, useState} from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu'
-import {
-    AddTodolistAC,
-    changeTodolistAC,
-    changeTodolistFilterAC,
-    removeTodolistAC,
-    todolistsReducer
-} from './state/todolistReducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasksReducer";
+import {AddTodolistAC, changeTodolistAC, changeTodolistFilterAC, removeTodolistAC} from './state/todolistReducer';
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 
