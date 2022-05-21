@@ -16,7 +16,7 @@ export type TaskPropsType = {
     // updateTaskName: (todolistID: string, id: string, title: string) => void
 }
 
-export const Task = React.memo(({taskID,
+export const Task1 = React.memo(({taskID,
                                     todolistID,
                                     // removeTask,
                                     // changeStatus,
